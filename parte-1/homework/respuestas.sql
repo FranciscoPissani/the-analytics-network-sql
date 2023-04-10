@@ -1,3 +1,5 @@
+-- cLASE 1--
+
 --1
 select * from stg.product_master
 where categoria = 'Electro'
