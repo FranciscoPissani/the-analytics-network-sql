@@ -57,3 +57,17 @@ where FECHA BETWEEN '2022-10-01' AND '2022-11-10'
 
 --cLASE 2--
 
+--1 
+select DISTINCT(PAIS) FROM stg.STORE_MASTER
+
+--2
+selECT count( distinct codigo_producto), subcategoria FROM stg.PRODUCT_MASTER
+WHERE IS_ACTIVE ='True'
+group by 2;
+
+--3
+select * from stg.order_line_sale
+where venta >100000 
+and moneda ='ARS'
+
+--4
