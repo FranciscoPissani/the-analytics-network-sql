@@ -88,5 +88,28 @@ from stg.order_line_sale
 where creditos is not null
 
 --7
+select tienda,  (sum(coalesce(descuento,0)*-1)/(sum (coalesce (venta,1)))) as porcentaje_dscto 
+from stg.order_line_sale 
+group by 1
+order by tienda
+
+--8
+select tienda, fecha, avg(inicial+final)/2 as inventario_promedio 
+from stg.inventory
+group by 1,2
+order by tienda,fecha asc
+
+--9
+
+
+
+
+
+
+
+
+
+
+
 
 
