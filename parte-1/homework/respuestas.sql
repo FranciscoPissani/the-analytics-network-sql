@@ -71,3 +71,22 @@ where venta >100000
 and moneda ='ARS'
 
 --4
+select sum(descuento), moneda from stg.order_line_sale 
+where descuento is not null 
+and fecha between '2022-11-01' and '2022-11-30'
+group by moneda
+
+--5 
+select sum(impuestos) as impuestos_pagados
+from stg.order_line_sale 
+where moneda= 'EUR'
+AND extract (year from fecha)='2022'
+
+--6
+select count (distinct orden) as orden_c_credito 
+from stg.order_line_sale 
+where creditos is not null
+
+--7
+
+
