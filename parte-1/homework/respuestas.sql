@@ -138,7 +138,9 @@ group by orden
 --Clase 3--
 
 --1 
-
+select nombre, codigo_producto, categoria, coalesce(color,'Unknown') 
+from stg.product_master
+where nombre like '%SAMSUNG%' or nombre like '%PHILIPS%'
 
 
 
