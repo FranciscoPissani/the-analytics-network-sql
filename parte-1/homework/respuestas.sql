@@ -100,29 +100,44 @@ group by 1,2
 order by tienda,fecha asc
 
 --9
-
-
+select 
+producto, 
+sum(coalesce(VENTA,0)-COALESCE(DESCUENTO,0*-1)) AS Venta_neta,
+sum (coalesce(descuento*-1,0))/(sum (coalesce(venta))) as Porcentaje_dcto
+from stg.order_line_sale 
+where moneda='ARS'
+group by producto
+order by producto asc
 
 --10
-
+select tienda, date(fecha::TEXT), conteo from stg.market_count 
+union 
+select tienda, date(fecha::TEXT), conteo from stg.super_store_count
 
 --11
-
+select * from stg.product_master
+where is_active='true'
+and nombre LIKE '%PHILIPS%'
 
 --12
-
+select tienda, sum(venta) venta, moneda from stg.order_line_sale   
+group by tienda, moneda
+order by  venta desc
 
 --13
-
-
+select producto ,moneda, sum(venta)/sum(cantidad) as promedio
+from stg.order_line_Sale
+group by producto,moneda
 
 --14
-
-
+select orden, sum(impuestos)/sum(venta)*100 Tasa_impuestos 
+from stg.order_line_sale   
+group by orden
 
 
 --Clase 3--
 
+--1 
 
 
 
