@@ -194,6 +194,18 @@ END AS VENTA_BRUTA_DOLARES
 from stg.order_line_sale S
 left join stg.monthly_average_fx_rate TC on tc.mes=date_trunc('month',s.fecha)
 
+--9
+select SUM(r.VENTA_BRUTA_DOLARES)AS  VENTA_TOTAL_DOLARES FROM 
+(SELECT S.*,
+case
+when S.moneda='ARS' THEN VENTA/COTIZACION_USD_PESO
+when S.moneda='EUR' THEN VENTA/COTIZACION_USD_EUR
+when S.moneda='URU' THEN VENTA/COTIZACION_USD_URU
+END AS VENTA_BRUTA_DOLARES
+from stg.order_line_sale S
+left join stg.monthly_average_fx_rate TC on tc.mes=date_trunc('month',s.fecha)) r
+
+
 
 
 
