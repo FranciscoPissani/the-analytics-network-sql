@@ -142,8 +142,49 @@ select nombre, codigo_producto, categoria, coalesce(color,'Unknown')
 from stg.product_master
 where nombre like '%SAMSUNG%' or nombre like '%PHILIPS%'
 
+--2 
+select pais, provincia, moneda, sum(venta) ventas_brutas, sum(impuestos) impuestos 
+from stg.order_line_sale s
+left join stg.store_master sm on s.tienda=sm.codigo_tienda
+group by 1,2,3
 
+--3
+select subcategoria, sum(venta) ventas, moneda 
+from stg.order_line_sale s
+left join stg.product_master pm on s.producto=pm.codigo_producto
+group by 1,3
+order by subcategoria asc, moneda asc
 
+--4
+select subcategoria, sum(cantidad) unidades_vendidas, concat (pais,'-',provincia) pais_prov 
+from stg.order_line_sale s
+left join stg.product_master pm on s.producto=pm.codigo_producto
+left join stg.store_master sm on sm.codigo_tienda=s.tienda
+group by 1,3
+order by pais_prov asc
+
+--5
+create or replace view stg.super_store as
+select sm.nombre as tienda, sum(conteo) as entradas 
+from stg.store_master sm
+inner join stg.market_count mk on mk.tienda=sm.codigo_tienda
+where date(mk.fecha::TEXT) >= date(sm.fecha_apertura::TEXT)
+gROUP BY 1
+
+--6
+select sm.nombre TIENDA, tienda Codigo_tienda, sku, DATE(date_trunc('month', fecha)) mes_año, avg(inicial+final)/2 as inventario_promedio 
+from stg.inventory I
+left join stg.store_master sm on i.tienda=sm.codigo_tienda
+group by 1,2,3,4
+order by tienda, sku asc
+
+--7
+select initcap(coalesce(material,'Unknown')) material, sum(cantidad) unidades_vendidas
+from stg.order_line_sale s
+left join stg.product_master pm on s.producto=pm.codigo_producto
+group by 1
+
+--8
 
 
 
