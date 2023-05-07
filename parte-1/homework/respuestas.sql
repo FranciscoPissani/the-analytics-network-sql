@@ -205,7 +205,7 @@ END AS VENTA_BRUTA_DOLARES
 from stg.order_line_sale S
 left join stg.monthly_average_fx_rate TC on tc.mes=date_trunc('month',s.fecha)) r
 
-
+--10
 
 
 
