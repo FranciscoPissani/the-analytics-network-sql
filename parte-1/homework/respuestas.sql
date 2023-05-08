@@ -206,7 +206,20 @@ from stg.order_line_sale S
 left join stg.monthly_average_fx_rate TC on tc.mes=date_trunc('month',s.fecha)) r
 
 --10
+SELECT S.*,C.costo_promedio_usd,
+case
+when S.moneda='ARS' THEN (VENTA+COALESCE (DESCUENTO,0))/COTIZACION_USD_PESO - COSTO_PROMEDIO_USD*CANTIDAD
+when S.moneda='EUR' THEN (VENTA+COALESCE (DESCUENTO,0))/COTIZACION_USD_EUR- COSTO_PROMEDIO_USD*CANTIDAD
+when S.moneda='URU' THEN (VENTA+COALESCE (DESCUENTO,0))/COTIZACION_USD_URU- COSTO_PROMEDIO_USD*CANTIDAD
+END AS Margen
+from stg.order_line_sale S
+left join stg.monthly_average_fx_rate TC on tc.mes=date_trunc('month',s.fecha)
+LEFT JOIN STG.COST C ON C.CODIGO_PRODUCTO=S.PRODUCTO
 
-
+--11
+select orden, subsubcategoria, count(distinct(s.producto)) productos
+from stg.order_line_sale S
+left join stg.product_master PM on PM.Codigo_producto=s.producto 
+group by 1,2
 
 
