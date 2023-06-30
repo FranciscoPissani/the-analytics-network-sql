@@ -222,4 +222,12 @@ from stg.order_line_sale S
 left join stg.product_master PM on PM.Codigo_producto=s.producto 
 group by 1,2
 
+Clase 4
+
+--1
+create schema if not exists bkp;
+Select * into bkp.product_master_20230630
+From stg.product_master
+
+--2
 
